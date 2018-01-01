@@ -1,0 +1,16 @@
+@import "../../../style/base/_colors.scss";
+
+.game-start-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 90%;
+
+  .lower-bigger {
+    display: flex;
+  }
+
+  #finish-game {
+    background-color: $buttonThatsMyNumber;
+  }
+}
