@@ -19,9 +19,7 @@ export class GameStartComponent implements OnInit {
     'range': true,
     'guess': false,
     'finish': false,
-  };
-
-  //TODO - validation and style
+  };  
 
   guessRandomNum(min, max) {
     return this.guessedNumber = Math.floor(Math.random() * (max - min + 1)) + min;
@@ -59,6 +57,7 @@ export class GameStartComponent implements OnInit {
     this._getFromServer.getDataFromServer(this.rangeUrl).then((res) => {
       this.range = res;
     });
+    this.tries = 0;
   }
 
   ngOnInit(): void {

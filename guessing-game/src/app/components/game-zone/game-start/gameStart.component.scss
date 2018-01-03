@@ -1,13 +1,22 @@
 @import "../../../style/base/_colors.scss";
 
 .game-start-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  width: 100%;
+  text-align: center;
   height: 90%;
 
-  .lower-bigger {
+  .info {
+    margin-bottom: 15%;
+  }
+
+  .buttons {
     display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    .button-container {
+      flex: 0 1 30%;
+    }
   }
 
   #finish-game {

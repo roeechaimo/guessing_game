@@ -11,25 +11,22 @@
         I've gussed your number in <span>{{tries}}</span> tries
       </p>
     </div>
-    <div class="button-container" *ngIf="texts.range">
-      <div class="button" (click)="pickNumber()">I thought of a number</div>
-    </div>
-    <div class="after-guess">
-      <div class="lower-bigger">
-        <div class="button-container" *ngIf="texts.guess">
-          <div class="button lower" (click)="lowerNumber()">My number is lower</div>
-        </div>
-        <div class="button-container" *ngIf="texts.guess">
-          <div class="button bigger" (click)="biggerNumber()">My number is bigger</div>
-        </div>
+    <div class="buttons">
+      <div class="button-container" *ngIf="texts.range">
+        <div class="button margin-top-button" (click)="pickNumber()">I thought of a number</div>
+      </div>
+      <div class="button-container" *ngIf="texts.guess">
+        <div class="button lower" (click)="lowerNumber()">My number is lower</div>
+      </div>
+      <div class="button-container" *ngIf="texts.guess">
+        <div class="button bigger" (click)="biggerNumber()">My number is bigger</div>
       </div>
       <div class="button-container" *ngIf="texts.guess">
         <div class="button finish" id="finish-game" (click)="finishGame()">That's my number!</div>
       </div>
+      <div class="button-container" *ngIf="texts.finish">
+        <div class="button play-again margin-top-button" (click)="playAgain()">Play again</div>
+      </div>
     </div>
-    <div class="button-container" *ngIf="texts.finish">
-      <div class="button play-again" (click)="playAgain()">Play again</div>
-    </div>
-
   </div>
 </div>
