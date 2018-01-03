@@ -1,5 +1,10 @@
 <div class="main-container">
   <div class="game-start-container">
+    <div class="error" *ngIf="error">
+      <p>
+        error - {{error}}
+      </p>
+    </div>
     <div class="info">
       <p class="text" id="range" *ngIf="texts.range">
         Think of a number between <span>{{range.min}}</span> and <span>{{range.max}}</span>

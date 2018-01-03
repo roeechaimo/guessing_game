@@ -1,5 +1,12 @@
 <div class="main-container">
-  <div class="button-container">
-    <div class="button" (click)="enable()">Press to enable and start playing</div>
+  <div class="error" *ngIf="error">
+    <p>
+      error - {{error}}
+    </p>
+  </div>
+  <div class="buttons">
+    <div class="button-container">
+      <div class="button" (click)="enable()">Press to enable and start playing</div>
+    </div>
   </div>
 </div>

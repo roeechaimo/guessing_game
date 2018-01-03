@@ -1,10 +1,25 @@
 @import "_colors.scss";
 
+@media screen and (max-width: 1280px) {
+  body {
+    overflow: scroll;
+  }
+}
+@media screen and (max-height: 650px) {
+  body {
+    overflow: scroll;
+  }
+}
+
 html {
   body {
     .main {
       .main-container {
         height: 90%;
+
+        .error {
+          color: $error;
+        }
 
         .button-container {
           margin: 2%;

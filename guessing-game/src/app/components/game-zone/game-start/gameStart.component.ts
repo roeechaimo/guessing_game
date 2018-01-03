@@ -19,10 +19,13 @@ export class GameStartComponent implements OnInit {
     'range': true,
     'guess': false,
     'finish': false,
-  };  
+  };
+  error: any = '';
 
   guessRandomNum(min, max) {
-    return this.guessedNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    this.guessedNumber = Math.floor(Math.random() * (max - min + 1)) + min;
+    localStorage.setItem('guessed_number', this.guessedNumber.toString());
+    return this.guessedNumber;
   }
 
   pickNumber() {
@@ -32,6 +35,7 @@ export class GameStartComponent implements OnInit {
       this.texts.range = false;
       this.texts.guess = true;
     }
+    this.localStorageManager(localStorage.getItem('state'));
   }
 
   lowerNumber() {
@@ -39,31 +43,96 @@ export class GameStartComponent implements OnInit {
     this.pickNumber();
   }
 
-  biggerNumber(){
+  biggerNumber() {
+
     this.range.min = this.guessedNumber;
     this.pickNumber();
   }
 
-  finishGame(){
+  finishGame() {
     this.texts.range = false;
     this.texts.guess = false;
     this.texts.finish = true;
+    this.localStorageManager('finish_game');
   }
 
-  playAgain(){
+  playAgain() {
     this.texts.range = true;
     this.texts.guess = false;
     this.texts.finish = false;
+    this.range = {};
     this._getFromServer.getDataFromServer(this.rangeUrl).then((res) => {
       this.range = res;
+      localStorage.setItem('range_min', this.range.min);
+      localStorage.setItem('range_max', this.range.max);
     });
     this.tries = 0;
+    localStorage.setItem('tries', this.tries.toString());
+    localStorage.setItem('state', 'enabled');
+  }
+
+  localStorageManager(currentState) {
+    switch (currentState) {
+      case 'enabled':
+        localStorage.setItem('state', 'number_picked');
+        localStorage.setItem('range_min', this.range.min);
+        localStorage.setItem('range_max', this.range.max);
+        localStorage.setItem('tries', this.tries.toString());
+        break;
+      case 'number_picked':
+        localStorage.setItem('range_min', this.range.min);
+        localStorage.setItem('range_max', this.range.max);
+        localStorage.setItem('tries', this.tries.toString());
+        break;
+      case 'finish_game':
+        localStorage.setItem('state', 'play_again');
+        break;
+    }
+  }
+
+  localStorageInit(state) {
+    switch (state) {
+      case 'play_again':
+        this.texts.range = false;
+        this.texts.guess = false;
+        this.texts.finish = true;
+        this.range = {
+          "min": localStorage.getItem('range_min'),
+          "max": localStorage.getItem('range_max')
+        };
+        this.tries = Number(localStorage.getItem('tries'));
+        this.finishGame();
+        break;
+      case 'number_picked':
+        this.texts.range = false;
+        this.texts.guess = true;
+        this.texts.finish = false;
+        this.range = {
+          "min": localStorage.getItem('range_min'),
+          "max": localStorage.getItem('range_max')
+        };
+        this.tries = Number(localStorage.getItem('tries'));
+        this.guessedNumber = Number(localStorage.getItem('guessed_number'));
+        this.localStorageManager('number_picked');
+        break;
+      default:
+        return true;
+    }
+    return false;
   }
 
   ngOnInit(): void {
-    this._getFromServer.getDataFromServer(this.rangeUrl).then((res) => {
-      this.range = res;
-    });
+    let proceed = this.localStorageInit(localStorage.getItem('state'));
+    if (proceed) {
+      this._getFromServer.getDataFromServer(this.rangeUrl).then((res) => {
+        this.range = res;
+        console.log(res);
+      })
+        .catch((error) => {
+          this.error = error;
+          console.log(error);
+        });
+    }
   }
 
 }
